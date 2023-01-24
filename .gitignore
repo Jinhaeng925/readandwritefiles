@@ -1,4 +1,4 @@
 # git ignore file is git's way of ignoring the files that are listed "myvenv/" means don't track all files that start with myvenv
 myvenv/
-test.py
 .vscode/
+test.py
