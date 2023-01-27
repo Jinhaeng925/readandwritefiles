@@ -9,7 +9,7 @@ sales_file = csv.reader(sales, delimiter=",")
 next(sales_file)
 
 # Create a new file to write the customer ID and calculated total
-salesreport = open("salesreport.csv", "w")
+salesreport = open("salesreport.csv", "w", newline="")
 
 # Create a writer to write into the sales file
 salesreport_writer = csv.writer(salesreport)
@@ -21,8 +21,14 @@ salesreport_writer.writerow(["Customer ID", "Calculated Total"])
 for record in sales_file:
     # customerID will be retrieved from the sales file
     customerID = record[0]
+    print(type(sales_file))
+
+    """
+    if customerID == sales_file[record-1][0]
     # calcTotal will be the sum of all the costs
-    calcTotal = record[3] + record[4] + record[5]
+    calcTotal = float(record[3]) + float(record[4]) + float(record[5])
+    calcTotal = "%.2f" % calcTotal
 
     # and written in the new file: "salesreport.csv"
     salesreport_writer.writerow([customerID, calcTotal])
+    """
