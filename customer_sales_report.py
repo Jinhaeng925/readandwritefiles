@@ -17,18 +17,40 @@ salesreport_writer = csv.writer(salesreport)
 # Write the Header Row of sales file
 salesreport_writer.writerow(["Customer ID", "Calculated Total"])
 
-# using a for loop you can step through the file, one line at a time
-for record in sales_file:
-    # customerID will be retrieved from the sales file
-    customerID = record[0]
-    print(type(sales_file))
+prevCustomerID = -1
+prevCustomerTotal = 0
+firstRow = True
 
-    """
-    if customerID == sales_file[record-1][0]
-    # calcTotal will be the sum of all the costs
-    calcTotal = float(record[3]) + float(record[4]) + float(record[5])
-    calcTotal = "%.2f" % calcTotal
+while True:
+    try:
+        # using a for loop you can step through the file, one line at a time
+        for record in sales_file:
+            # customerID will be retrieved from the sales file
+            customerID = record[0]
 
-    # and written in the new file: "salesreport.csv"
-    salesreport_writer.writerow([customerID, calcTotal])
-    """
+            # calcTotal will be the sum of all the costs
+            calcTotal = float(record[3]) + float(record[4]) + float(record[5])
+
+            # If this is the very first row we will set up the variables for comparison
+            if firstRow == True:
+                prevCustomerID = customerID
+                prevCustomerTotal = calcTotal
+                firstRow = False
+            # Once the setup is complete we will check to add the total value for each customer
+            else:
+                if prevCustomerID == customerID:
+                    prevCustomerTotal += calcTotal
+                else:
+                    salesreport_writer.writerow(
+                        [prevCustomerID, round(prevCustomerTotal, 2)]
+                    )
+                    prevCustomerID = customerID
+                    prevCustomerTotal = calcTotal
+        # If this is the end of the file, there will be an exception
+        next(sales_file)
+    except StopIteration:
+        # Since, the loop has completed without inserting the final customer info, we will insert before exiting the program.
+        salesreport_writer.writerow([prevCustomerID, round(prevCustomerTotal, 2)])
+        # Close write file
+        salesreport.close()
+        break

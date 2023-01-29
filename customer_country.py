@@ -16,14 +16,17 @@ customer_country = open("customer_country.csv", "w", newline="")
 customer_country_writer = csv.writer(customer_country)
 
 # Write the Header Row of customer_country file
-header = ["Name", "Country"]
+header = ["Full Name", " Country"]
 customer_country_writer.writerow(header)
 
 # using a for loop you can step through the file, one line at a time
 for record in customer_file:
     # For every row in the customer file, the first and last name will be concatenated to be name
-    name = record[1] + " " + record[2].rstrip("\n")
+    name = record[1] + " " + record[2]
     # country will be country
-    country = record[4].rstrip("\n")
+    country = record[4]
     # and written in the new file: "customer_country.csv"
-    customer_country_writer.writerow([name, country.rstrip("\n")])
+    customer_country_writer.writerow([name, country])
+
+# Close the Write file
+customer_country.close()
